@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-dark-950 text-slate-200 antialiased;
+  }
+}
+
+@layer components {
+  .container-narrow {
+    @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-all duration-200 hover:bg-primary-500 hover:shadow-lg hover:shadow-primary-600/25 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-900;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border border-primary-500/30 bg-primary-500/10 px-6 py-3 text-base font-semibold text-primary-300 transition-all duration-200 hover:bg-primary-500/20 hover:border-primary-400/50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-900;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center rounded-lg bg-accent-500 px-6 py-3 text-base font-semibold text-white shadow-sm transition-all duration-200 hover:bg-accent-400 hover:shadow-lg hover:shadow-accent-500/25 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-dark-900;
+  }
+
+  .card {
+    @apply rounded-xl border border-dark-700/50 bg-dark-900/80 shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary-900/10 hover:border-primary-500/30;
+  }
+
+  .card-glass {
+    @apply rounded-xl border border-white/5 bg-white/5 backdrop-blur-xl shadow-sm transition-all duration-300 hover:border-primary-500/20 hover:bg-white/[0.07];
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium;
+  }
+
+  .badge-teal {
+    @apply badge bg-accent-500/20 text-accent-300;
+  }
+
+  .badge-amber {
+    @apply badge bg-amber-500/20 text-amber-300;
+  }
+
+  .badge-slate {
+    @apply badge bg-dark-700 text-dark-300;
+  }
+
+  .section-heading {
+    @apply text-2xl font-bold text-white sm:text-3xl;
+  }
+
+  .section-subheading {
+    @apply mt-2 text-base text-dark-400 sm:text-lg;
+  }
+
+  .prose-article h2 {
+    @apply mb-3 mt-8 text-xl font-bold text-white;
+  }
+
+  .prose-article h3 {
+    @apply mb-2 mt-6 text-lg font-semibold text-slate-200;
+  }
+
+  .prose-article p {
+    @apply mb-4 leading-relaxed text-slate-300;
+  }
+
+  .prose-article ul,
+  .prose-article ol {
+    @apply mb-4 ml-6 space-y-1 text-slate-300;
+  }
+
+  .prose-article ul {
+    @apply list-disc;
+  }
+
+  .prose-article ol {
+    @apply list-decimal;
+  }
+
+  .prose-article li {
+    @apply leading-relaxed;
+  }
+
+  .prose-article strong {
+    @apply font-semibold text-white;
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 60px rgba(147, 51, 234, 0.15), 0 0 120px rgba(147, 51, 234, 0.05);
+  }
+
+  .glow-line {
+    @apply bg-gradient-to-r from-transparent via-primary-500/50 to-transparent;
+    height: 1px;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}

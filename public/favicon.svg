@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Shield shape -->
+  <path d="M32 4L8 16v16c0 14.4 10.24 27.84 24 32 13.76-4.16 24-17.6 24-32V16L32 4z" fill="#0d9488" />
+  <path d="M32 8L12 18v14c0 12.6 8.96 24.36 20 28 11.04-3.64 20-15.4 20-28V18L32 8z" fill="#14b8a6" />
+  <!-- Book/Education icon -->
+  <path d="M22 26h20v2H22zM22 31h20v2H22zM22 36h14v2H22z" fill="white" opacity="0.9" />
+  <!-- Checkmark on book -->
+  <path d="M27 42l3 3 7-7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+</svg>

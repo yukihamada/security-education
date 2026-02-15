@@ -1,0 +1,5 @@
+Contact: mailto:security@yukihamada.jp
+Expires: 2027-02-12T00:00:00.000Z
+Preferred-Languages: ja, en
+Canonical: https://www.dojoc.io/.well-known/security.txt
+Policy: https://www.dojoc.io/security
