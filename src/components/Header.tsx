@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useAuth } from "@/components/AuthProvider";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, loading, logout } = useAuth();
 
   const navigation = [
     { name: "講座", href: "/courses" },
@@ -12,6 +14,11 @@ export default function Header() {
     { name: "料金", href: "/pricing" },
     { name: "コミュニティ", href: "/community" },
   ];
+
+  const handleLogout = async () => {
+    await logout();
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-dark-800/80 bg-dark-950/90 backdrop-blur-xl">
@@ -52,9 +59,38 @@ export default function Header() {
               {item.name}
             </Link>
           ))}
-          <Link href="/courses" className="btn-primary !px-5 !py-2 !text-sm">
-            無料で始める
-          </Link>
+          {loading ? (
+            <div className="h-9 w-20 animate-pulse rounded-lg bg-dark-800" />
+          ) : user ? (
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-dark-400">
+                {user.name || user.email.split("@")[0]}
+              </span>
+              {user.subscription?.plan && user.subscription.plan !== "free" && (
+                <span className="rounded-full bg-primary-500/20 px-2 py-0.5 text-xs font-medium text-primary-300">
+                  {user.subscription.plan.toUpperCase()}
+                </span>
+              )}
+              <button
+                onClick={handleLogout}
+                className="text-sm font-medium text-dark-400 transition-colors hover:text-red-400"
+              >
+                ログアウト
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link
+                href="/login"
+                className="text-sm font-medium text-dark-400 transition-colors hover:text-primary-400"
+              >
+                ログイン
+              </Link>
+              <Link href="/signup" className="btn-primary !px-5 !py-2 !text-sm">
+                無料登録
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -91,13 +127,36 @@ export default function Header() {
               </Link>
             ))}
             <div className="pt-2">
-              <Link
-                href="/courses"
-                className="btn-primary block w-full text-center"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                無料で始める
-              </Link>
+              {user ? (
+                <div className="space-y-2">
+                  <p className="px-4 text-sm text-dark-500">
+                    {user.email}
+                  </p>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full rounded-lg px-4 py-2.5 text-left text-base font-medium text-dark-300 hover:bg-dark-800 hover:text-red-400"
+                  >
+                    ログアウト
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <Link
+                    href="/login"
+                    className="block rounded-lg px-4 py-2.5 text-base font-medium text-dark-300 hover:bg-dark-800 hover:text-primary-400"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    ログイン
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="btn-primary block w-full text-center"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    無料登録
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

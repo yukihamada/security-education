@@ -3,8 +3,8 @@ import Stripe from "stripe";
 import { courses } from "@/data/courses";
 
 const PLAN_PRICES: Record<string, { name: string; amount: number }> = {
-  premium: { name: "プレミアムプラン", amount: 1980 },
-  enterprise: { name: "法人プラン", amount: 14800 },
+  pro: { name: "Proプラン", amount: 4980 },
+  enterprise: { name: "チーム / 法人プラン", amount: 14800 },
 };
 
 export async function POST(request: NextRequest) {
