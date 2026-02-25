@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { courses } from "@/data/courses";
 import PurchaseButton from "@/components/PurchaseButton";
 import AudioPlayer from "@/components/AudioPlayer";
+import LessonContent from "@/components/LessonContent";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -226,6 +227,16 @@ export default async function CourseDetailPage({ params }: Props) {
                   * Stripe安全決済
                 </p>
 
+                <div className="mt-4 text-center">
+                  <span className="text-xs text-dark-500">
+                    または{" "}
+                    <Link href="/pricing" className="text-primary-400 hover:underline">
+                      Proプラン（月額4,980円）
+                    </Link>
+                    {" "}で全講座見放題
+                  </span>
+                </div>
+
                 <div className="mt-6 space-y-3 border-t border-dark-700/30 pt-6">
                   {course.features.map((feature, i) => (
                     <div key={i} className="flex items-start gap-2">
@@ -283,57 +294,64 @@ export default async function CourseDetailPage({ params }: Props) {
             <p className="section-subheading">
               全{course.totalLessons}回の講義内容{course.totalDuration ? `（合計${course.totalDuration}）` : ""}
             </p>
+            <p className="mt-1 text-sm text-primary-400">
+              最初の2回は無料でご覧いただけます
+            </p>
 
             <div className="mt-8 space-y-3">
-              {course.curriculum.map((lesson) => (
-                <div
-                  key={lesson.number}
-                  className={`flex items-center gap-4 rounded-lg border p-4 ${
-                    lesson.isFree
-                      ? "border-primary-500/30 bg-primary-500/5"
-                      : "border-dark-700/30 bg-dark-900/50"
-                  }`}
-                >
-                  <div
-                    className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                      lesson.isFree
-                        ? "bg-primary-600 text-white"
-                        : "bg-dark-800 text-dark-400"
-                    }`}
-                  >
-                    {lesson.number}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-white">{lesson.title}</p>
-                    <p className="text-sm text-dark-400">{lesson.duration}</p>
-                  </div>
-                  {lesson.isFree ? (
-                    <span className="badge bg-primary-500/20 text-primary-300">
-                      無料プレビュー
-                    </span>
-                  ) : (
-                    <svg
-                      className="h-5 w-5 text-dark-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
+              {course.curriculum.map((lesson) => {
+                const isFreeAccess = lesson.number <= 2;
+                return (
+                  <div key={lesson.number}>
+                    <div
+                      className={`flex items-center gap-4 rounded-lg border p-4 ${
+                        isFreeAccess
+                          ? "border-primary-500/30 bg-primary-500/5"
+                          : "border-dark-700/30 bg-dark-900/50"
+                      }`}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                      />
-                    </svg>
-                  )}
-                </div>
-              ))}
+                      <div
+                        className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+                          isFreeAccess
+                            ? "bg-primary-600 text-white"
+                            : "bg-dark-800 text-dark-400"
+                        }`}
+                      >
+                        {lesson.number}
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-white">{lesson.title}</p>
+                        <p className="text-sm text-dark-400">{lesson.duration}</p>
+                      </div>
+                      {isFreeAccess ? (
+                        <span className="badge bg-primary-500/20 text-primary-300">
+                          無料
+                        </span>
+                      ) : (
+                        <svg
+                          className="h-5 w-5 text-dark-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Free Preview */}
+      {/* Free Preview - Lesson 1 */}
       <section className="border-t border-dark-800/50 py-12 sm:py-16">
         <div className="container-narrow">
           <div className="mx-auto max-w-3xl">
@@ -358,19 +376,58 @@ export default async function CourseDetailPage({ params }: Props) {
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* CTA after preview */}
-            <div className="mt-8 text-center">
-              <p className="mb-4 text-dark-400">
-                続きが気になりますか？ 全{course.totalLessons}回の講義で体系的に学べます。
-              </p>
-              <PurchaseButton
-                courseSlug={course.slug}
-                price={course.price}
-                label={`講座を購入する（¥${course.price.toLocaleString()}）`}
-                className="btn-primary !px-8 !py-3.5"
-              />
+      {/* Paid Lesson Content (Lesson 2+) */}
+      {course.curriculum
+        .filter((lesson) => lesson.content && lesson.number >= 2)
+        .map((lesson) => (
+          <section
+            key={lesson.number}
+            id={`lesson-${lesson.number}`}
+            className="border-t border-dark-800/50 py-12 sm:py-16"
+          >
+            <div className="container-narrow">
+              <div className="mx-auto max-w-3xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white">
+                    {lesson.number}
+                  </div>
+                  <h2 className="text-xl font-bold text-white">
+                    {lesson.title}
+                  </h2>
+                  <span className="text-sm text-dark-500">{lesson.duration}</span>
+                </div>
+
+                <div className="rounded-xl border border-dark-700/30 bg-dark-900/50 p-6 sm:p-8">
+                  <LessonContent
+                    courseSlug={course.slug}
+                    lessonNumber={lesson.number}
+                    lessonTitle={lesson.title}
+                    content={lesson.content!}
+                    coursePrice={course.price}
+                  />
+                </div>
+              </div>
             </div>
+          </section>
+        ))}
+
+      {/* CTA after content */}
+      <section className="border-t border-dark-800/50 py-12 sm:py-16">
+        <div className="container-narrow">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="mb-4 text-dark-400">
+              全{course.totalLessons}回の講義で体系的に学べます。
+            </p>
+            <PurchaseButton
+              courseSlug={course.slug}
+              price={course.price}
+              label={`講座を購入する（¥${course.price.toLocaleString()}）`}
+              className="btn-primary !px-8 !py-3.5"
+            />
           </div>
         </div>
       </section>
